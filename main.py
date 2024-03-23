@@ -1,12 +1,12 @@
 from logger import logging
 from data.data_loader import DataLoader
-from data.data_preprocessing import Data_Preprocessor
+from data.data_preprocessing import DataPreprocessor
 import pandas as pd
 
 def main():
     logging.info("Starting the program..")
     data_loader = DataLoader()
-    data_preprocessor = Data_Preprocessor()
+    data_preprocessor = DataPreprocessor()
     
     # Load the dataset  
     df = data_loader.load_data()
@@ -44,6 +44,9 @@ def main():
 
     # Verify the dataset for any null values after the proprocessing
     logging.info(df.isna().sum())
+
+    # Label encode categorical columns
+    df = data_preprocessor.label_encode(df, categorical_cols)
 
 if __name__ == "__main__":
     main()

@@ -1,16 +1,33 @@
 from logger import logging
 import pandas as pd
+from sklearn.preprocessing import LabelEncoder
 
-class Data_Preprocessor():
+class DataPreprocessor():
     def __init__(self):
         pass
     
-    # This function drops the columns as determined after EDA
     def drop_columns(self, dataframe, columns_to_drop):
-        for col in columns_to_drop:
-            dataframe = dataframe.drop(col, axis = 1)
-            logging.info(f"Dropped the column {col} from the dataset.")
+        """
+        Drop specified columns from the DataFrame.
 
+        Parameters:
+        - dataframe: DataFrame
+            The input DataFrame.
+        - columns_to_drop: list
+            List of column names to drop.
+
+        Returns:
+        - DataFrame
+            The DataFrame with specified columns dropped.
+        """
+        try:
+            dataframe = dataframe.drop(columns_to_drop, axis=1)
+            for col in columns_to_drop:
+                logging.info(f"Dropped the column '{col}' from the dataset.")
+        except KeyError as e:
+            logging.error(f"Column '{e.args[0]}' not found in the DataFrame.")
+        except Exception as e:
+            logging.error(f"An exception occurred: {e}")
         return dataframe
     
     def fillna_mean(self, dataframe, columns_to_replace):
@@ -32,8 +49,10 @@ class Data_Preprocessor():
                 col_mean = dataframe[col].mean()
                 dataframe[col] = dataframe[col].fillna(col_mean)
                 logging.info(f"Replaced missing values in the numeric column '{col}' with the mean.")
+        except KeyError as e:
+            logging.error(f"Column '{e.args[0]}' not found in the DataFrame.")
         except Exception as e:
-            logging.error(f"Exception occurred: {e}")
+            logging.error(f"An exception occurred: {e}")
         return dataframe
 
     def fillna_mode(self, dataframe, columns_to_replace):
@@ -60,6 +79,29 @@ class Data_Preprocessor():
                     logging.info(f"No mode found for categorical column '{col}'.")
         except KeyError as e:
             logging.error(f"Column '{e.args[0]}' not found in the DataFrame.")
+        except Exception as e:
+            logging.error(f"An exception occurred: {e}")
+        return dataframe
+    
+    def label_encode(self, dataframe, columns_to_encode):
+        """
+        Label encode categorical columns in the DataFrame.
+
+        Parameters:
+        - dataframe: DataFrame
+            The input DataFrame.
+        - columns_to_encode: list
+            List of column names to encode.
+
+        Returns:
+        - DataFrame
+            The DataFrame with categorical columns label encoded.
+        """
+        try:
+            label_encoder = LabelEncoder()
+            for col in columns_to_encode:
+                dataframe[col] = label_encoder.fit_transform(dataframe[col])
+                logging.info(f"Label encoded categorical column '{col}'.")
         except Exception as e:
             logging.error(f"An exception occurred: {e}")
         return dataframe
