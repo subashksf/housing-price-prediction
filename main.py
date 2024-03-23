@@ -1,12 +1,14 @@
 from logger import logging
 from data.data_loader import DataLoader
-from data.data_preprocessing import DataPreprocessor
+from data.data_preprocessor import DataPreprocessor
+from train.trainer import Trainer
 import pandas as pd
 
 def main():
     logging.info("Starting the program..")
     data_loader = DataLoader()
     data_preprocessor = DataPreprocessor()
+    trainer = Trainer()
     
     # Load the dataset  
     df = data_loader.load_data()
@@ -47,6 +49,9 @@ def main():
 
     # Label encode categorical columns
     df = data_preprocessor.label_encode(df, categorical_cols)
+
+    # Perform train test split
+    X_train, X_test, y_train, y_test = trainer.perform_train_test_split(df, 'SalePrice')
 
 if __name__ == "__main__":
     main()
