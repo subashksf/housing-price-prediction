@@ -96,3 +96,19 @@ I used the below data preprocessing techniques:-
 
 ## Models
 I built two models to compare the performance and efficiency - Random Forests and XGBoost, using cross-validation technique for determining the optimal hyperparameters for both of them. The model evaluation metrics can be found in the notebook.
+
+# Initial Feature Engineering and Modeling
+The initial feature engineering and modeling processes are documented in the Jupyter notebook house_price_prediction_regression.ipynb. This notebook contains exploratory data analysis (EDA), data preprocessing steps, feature engineering techniques, and initial model building. It serves as a comprehensive guide to understanding the initial stages of the project.
+
+# Finalized Model
+The finalized model, along with tuned hyperparameters, is implemented in the Python project. To execute the model, follow these steps:
+
+1. Ensure you have installed all dependencies by running:
+pip install -r requirements.txt
+
+2. Run the main Python script main.py:
+python main.py
+
+Executing main.py will load the finalized model, apply it to the test data, and produce the desired output.
+
+This modular approach allows for a clear separation between the exploratory and development phases in the Jupyter notebook and the production-ready model in the Python project.
