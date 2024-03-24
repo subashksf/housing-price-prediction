@@ -1,15 +1,15 @@
 from logger import logging
 from data.data_loader import DataLoader
 from data.data_preprocessor import DataPreprocessor
-from train.trainer import Trainer
+from models.xgboost_regressor import XGBoostRegressor
 import pandas as pd
 
 def main():
     logging.info("Starting the program..")
     data_loader = DataLoader()
     data_preprocessor = DataPreprocessor()
-    trainer = Trainer()
-    
+    xgbRegressor = XGBoostRegressor()
+  
     # Load the dataset  
     df = data_loader.load_data()
 
@@ -44,14 +44,11 @@ def main():
     # Replace null values with mode
     df = data_preprocessor.fillna_mode(df, categorical_cols_with_nulls)
 
-    # Verify the dataset for any null values after the proprocessing
-    logging.info(df.isna().sum())
-
     # Label encode categorical columns
     df = data_preprocessor.label_encode(df, categorical_cols)
 
-    # Perform train test split
-    X_train, X_test, y_train, y_test = trainer.perform_train_test_split(df, 'SalePrice')
+    # Modeling with XGBoost Regressor
+    predictions = xgbRegressor.model_xgboost_regressor(data=df, target_column='SalePrice')
 
 if __name__ == "__main__":
     main()
